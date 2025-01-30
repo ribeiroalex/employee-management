@@ -1,0 +1,6 @@
+services:
+  employee.api:
+    image: ${DOCKER_REGISTRY-}employeeapi
+    build:
+      context: .
+      dockerfile: Employee.API/Dockerfile

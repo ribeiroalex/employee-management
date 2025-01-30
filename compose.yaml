@@ -1,0 +1,19 @@
+services: 
+    api:
+        build: 
+            dockerfile: ./API/Employee.API/Dockerfile
+        container_name: api
+        ports:
+            - "8080:8080"
+        depends_on:
+            sqlserver:
+                restart: true
+                condition: service_started
+    sqlserver:
+        container_name: sqlserver
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        environment:
+          - ACCEPT_EULA=Y
+          - MSSQL_SA_PASSWORD=admPass&123
+        ports:
+          - "1433:1433"
