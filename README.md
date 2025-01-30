@@ -13,11 +13,6 @@ if you are running from Visual Studio a new browser windows will open for swagge
 
 there are initially four roles:
 
- - 1
- - 2
- - 3
- - 4
-
 | Role Name  | Id |
 | ------------- | ------------- |
 | CEO  | 1  |
