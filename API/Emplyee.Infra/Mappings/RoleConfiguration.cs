@@ -20,6 +20,9 @@ namespace Emplyee.Infra.Mappings
             builder.Metadata.FindNavigation("Employee")?.SetPropertyAccessMode(PropertyAccessMode.Field);
             builder.Metadata.FindNavigation("RolePermission")?.SetPropertyAccessMode(PropertyAccessMode.Field);
 
+            //builder.Property(x => x.Employee).HasField("_employeeRoles");
+            //builder.Property(x => x.RolePermission).HasField("_rolePermission");
+
             builder.HasMany(builder => builder.RolePermission)
                 .WithOne()
                 .HasForeignKey("RoleId")

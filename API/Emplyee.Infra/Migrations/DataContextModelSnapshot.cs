@@ -125,14 +125,14 @@ namespace Emplyee.Infra.Migrations
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("RolesRoleId")
+                    b.Property<int>("EmployeeRolesRoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeId", "RolesRoleId");
+                    b.HasKey("EmployeeId", "EmployeeRolesRoleId");
 
-                    b.HasIndex("RolesRoleId");
+                    b.HasIndex("EmployeeRolesRoleId");
 
-                    b.ToTable("EmployeeRole");
+                    b.ToTable("EmployeeRole", (string)null);
                 });
 
             modelBuilder.Entity("Employee.Domain.Entities.Employee", b =>
@@ -198,7 +198,7 @@ namespace Emplyee.Infra.Migrations
 
                     b.HasOne("Employee.Domain.Entities.Role", null)
                         .WithMany()
-                        .HasForeignKey("RolesRoleId")
+                        .HasForeignKey("EmployeeRolesRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -15,7 +15,7 @@ namespace Employee.Domain.Entities
 
         private List<RolePermission>_rolePermission = new List<RolePermission>();
 
-        private List<Employee>? _employeeRoles = new List<Employee>();
+        private List<Employee>? _employee = new List<Employee>();
 
         public Role(int roleId, string roleName)
         {
@@ -23,6 +23,6 @@ namespace Employee.Domain.Entities
             RoleName = roleName;
         }
 
-        public ICollection<Employee>? Employee => _employeeRoles.AsReadOnly();
+        public ICollection<Employee>? Employee => _employee.AsReadOnly();
     }
 }

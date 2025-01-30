@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Emplyee.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDataMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -129,11 +129,11 @@ namespace Emplyee.Infra.Migrations
                 columns: table => new
                 {
                     EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RolesRoleId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeRolesRoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeRole", x => new { x.EmployeeId, x.RolesRoleId });
+                    table.PrimaryKey("PK_EmployeeRole", x => new { x.EmployeeId, x.EmployeeRolesRoleId });
                     table.ForeignKey(
                         name: "FK_EmployeeRole_Employee_EmployeeId",
                         column: x => x.EmployeeId,
@@ -141,8 +141,8 @@ namespace Emplyee.Infra.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EmployeeRole_Role_RolesRoleId",
-                        column: x => x.RolesRoleId,
+                        name: "FK_EmployeeRole_Role_EmployeeRolesRoleId",
+                        column: x => x.EmployeeRolesRoleId,
                         principalTable: "Role",
                         principalColumn: "RoleId",
                         onDelete: ReferentialAction.Cascade);
@@ -154,9 +154,9 @@ namespace Emplyee.Infra.Migrations
                 column: "ManagerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeRole_RolesRoleId",
+                name: "IX_EmployeeRole_EmployeeRolesRoleId",
                 table: "EmployeeRole",
-                column: "RolesRoleId");
+                column: "EmployeeRolesRoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_People_DocumentNumber",
@@ -173,7 +173,7 @@ namespace Emplyee.Infra.Migrations
             migrationBuilder.Sql("INSERT INTO Role (RoleName) VALUES ('Admin')");
             migrationBuilder.Sql("INSERT INTO Role (RoleName) VALUES ('Manager')");
             migrationBuilder.Sql("INSERT INTO Role (RoleName) VALUES ('Employee')");
-            
+
 
             migrationBuilder.Sql("INSERT INTO RolePermissions (RoleId, CanCreateRoleId) VALUES (1, 2)");
             migrationBuilder.Sql("INSERT INTO RolePermissions (RoleId, CanCreateRoleId) VALUES (1, 3)");
@@ -181,7 +181,7 @@ namespace Emplyee.Infra.Migrations
             migrationBuilder.Sql("INSERT INTO RolePermissions (RoleId, CanCreateRoleId) VALUES (2, 3)");
             migrationBuilder.Sql("INSERT INTO RolePermissions (RoleId, CanCreateRoleId) VALUES (2, 4)");
             migrationBuilder.Sql("INSERT INTO RolePermissions (RoleId, CanCreateRoleId) VALUES (3, 4)");
-            
+
 
             var person1 = Guid.NewGuid();
             var person2 = Guid.NewGuid();
@@ -196,9 +196,9 @@ namespace Emplyee.Infra.Migrations
             migrationBuilder.Sql($"INSERT INTO Employee (Id, ManagerId) VALUES ('{person2}', NULL)");
             migrationBuilder.Sql($"INSERT INTO Employee (Id, ManagerId) VALUES ('{person3}', '{person2}')");
 
-            migrationBuilder.Sql($"INSERT INTO EmployeeRole (EmployeeId, RolesRoleId) VALUES ('{person1}', 1)");
-            migrationBuilder.Sql($"INSERT INTO EmployeeRole (EmployeeId, RolesRoleId) VALUES ('{person2}', 2)");
-            migrationBuilder.Sql($"INSERT INTO EmployeeRole (EmployeeId, RolesRoleId) VALUES ('{person3}', 3)");
+            migrationBuilder.Sql($"INSERT INTO EmployeeRole (EmployeeId, EmployeeRolesRoleId) VALUES ('{person1}', 1)");
+            migrationBuilder.Sql($"INSERT INTO EmployeeRole (EmployeeId, EmployeeRolesRoleId) VALUES ('{person2}', 2)");
+            migrationBuilder.Sql($"INSERT INTO EmployeeRole (EmployeeId, EmployeeRolesRoleId) VALUES ('{person3}', 3)");
 
             migrationBuilder.Sql($"INSERT INTO Phones (PersonId, PhoneNumber, EmployeeId) VALUES ('{person1}', '12345678901', '{person1}')");
             migrationBuilder.Sql($"INSERT INTO Phones (PersonId, PhoneNumber, EmployeeId) VALUES ('{person2}', '12345678902', '{person2}')");
@@ -207,8 +207,6 @@ namespace Emplyee.Infra.Migrations
 
             migrationBuilder.Sql($"INSERT INTO Addresses (PersonId, AddressLine, EmployeeId) VALUES ('{person1}', 'Address 1', '{person1}')");
             migrationBuilder.Sql($"INSERT INTO Addresses (PersonId, AddressLine, EmployeeId) VALUES ('{person2}', 'Address 1', '{person2}')");
-
-
         }
 
         /// <inheritdoc />

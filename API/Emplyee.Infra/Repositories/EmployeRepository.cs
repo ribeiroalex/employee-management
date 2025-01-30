@@ -21,6 +21,12 @@ namespace Emplyee.Infra.Repositories
             _dataContext = dataContext;
         }
 
+        public async Task<bool> Add(Employee.Domain.Entities.Employee employee)
+        {
+            _dataContext.Employees.Add(employee);
+            await _dataContext.SaveChangesAsync();
+            return true;
+        }
 
         public bool Delete(Employee.Domain.Entities.Employee employee)
         {
@@ -36,7 +42,10 @@ namespace Emplyee.Infra.Repositories
 
         public async Task<Employee.Domain.Entities.Employee?> GetByIdAsync(Guid id)
         {
-            return await _dataContext.Employees.Where(EmployeeQueries.GetById(id)).FirstOrDefaultAsync();
+            return await _dataContext.Employees
+                .Include(x => x.EmployeeRoles)
+                .ThenInclude(x => x.RolePermission)
+                .Where(EmployeeQueries.GetById(id)).FirstOrDefaultAsync();
         }
 
         public bool Update(Employee.Domain.Entities.Employee employee)

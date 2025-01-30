@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>9c212f05-f9a2-4f6a-95b6-4d203a3b9d4e</ProjectGuid>
+    <ProjectGuid>329e98ce-b1e2-4238-9648-fac32c447deb</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>employee.api</DockerServiceName>

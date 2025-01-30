@@ -29,19 +29,6 @@ namespace Employee.Domain.Handlers
             _validator = validator;
             _mapper = mapper;
         }
-        private async Task<GenericCommandResult> ValidateCreatorAndRole(CreateEmployeeCommand command)
-        {
-            var creator = await _employeeRepository.GetByIdAsync(command.CreatedById);
-            if (creator == null) return new GenericCommandResult(false, "Creator not found", $"CreatorId: {command.CreatedById}");
-
-            var role = await _employeeRepository.GetRoleByIdAsync(command.RoleId);
-            if (role == null) return new GenericCommandResult(false, "Role not found", $"RoleId: {command.RoleId}");
-
-            var hasPermission = await _rolePermissionService.CanCreateRoleAsync(creator.Roles, role);
-            if (!hasPermission) return new GenericCommandResult(false, "You do not have permission to create this role.", $"Missing Role Permission: {role.RoleName}");
-
-            return new GenericCommandResult(true, "Validation successful", null);
-        }
 
         public async Task<ICommandResult> Handle(CreateEmployeeCommand command)
         {
@@ -60,6 +47,8 @@ namespace Employee.Domain.Handlers
             //this should be done via a service after the employee is created. but for the simplicity of this demo I will keep it.
             newEmployee.SetManager(manager);
 
+            await _employeeRepository.Add(newEmployee);
+
             return new GenericCommandResult(true, "Employee created with success!", newEmployee);
         }
 
@@ -68,9 +57,10 @@ namespace Employee.Domain.Handlers
             var employee = await _employeeRepository.GetByIdAsync(command.Id);
             if(employee == null)
                 return new GenericCommandResult(false, "Employee not found!", $"Id:{command.Id}");
-            
 
-            var validationResult = _validator.Validate(employee);
+            var updateEmployee = _mapper.Map<UpdateEmployeeCommand, Entities.Employee>(command, employee);
+
+            var validationResult = _validator.Validate(updateEmployee);
             if (!validationResult.IsValid)
                 return new GenericCommandResult(false, "An error occured while updating employee!", string.Join(",", validationResult.Errors));
 
@@ -93,6 +83,19 @@ namespace Employee.Domain.Handlers
                 return new GenericCommandResult(true, "Employee delete with success!", resut);
             else
                 return new GenericCommandResult(false, "Error delete update employee!", resut);
+        }
+        private async Task<GenericCommandResult> ValidateCreatorAndRole(CreateEmployeeCommand command)
+        {
+            var creator = await _employeeRepository.GetByIdAsync(command.CreatedById);
+            if (creator == null) return new GenericCommandResult(false, "Creator not found", $"CreatorId: {command.CreatedById}");
+
+            var role = await _employeeRepository.GetRoleByIdAsync(command.RoleId);
+            if (role == null) return new GenericCommandResult(false, "Role not found", $"RoleId: {command.RoleId}");
+
+            var hasPermission = await _rolePermissionService.CanCreateRoleAsync(creator.EmployeeRoles, role);
+            if (!hasPermission) return new GenericCommandResult(false, "You do not have permission to create this role.", $"Missing Role Permission: {role.RoleName}");
+
+            return new GenericCommandResult(true, "Validation successful", null);
         }
     }
 }

@@ -33,19 +33,7 @@ namespace Employee.Domain.Mapping
 
             CreateMap<UpdateEmployeeCommand, Entities.Employee>()
                .ConstructUsing(src => new Entities.Employee(src.FirstName, src.LastName))
-               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-               .AfterMap((s, d) =>
-               {
-                   foreach (var a in s.Address)
-                   {
-                       d.AddAddress(a);
-                   }
-
-                   foreach (var p in s.Phone)
-                   {
-                       d.AddPhone(p);
-                   }
-               });
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
 
         }
     }

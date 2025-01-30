@@ -2,5 +2,19 @@ services:
   employee.api:
     image: ${DOCKER_REGISTRY-}employeeapi
     build:
-      context: .
-      dockerfile: Employee.API/Dockerfile
+      context: ..
+      dockerfile: API/Employee.API/Dockerfile
+    ports:
+        - "8081:8080"
+    depends_on:
+        sqlserver:
+            restart: true
+            condition: service_started
+  sqlserver:
+    container_name: localserver
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+        - ACCEPT_EULA=Y
+        - MSSQL_SA_PASSWORD=admPass&123
+    ports:
+        - "1434:1433"

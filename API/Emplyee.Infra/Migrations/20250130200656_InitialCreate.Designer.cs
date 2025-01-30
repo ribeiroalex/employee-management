@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Emplyee.Infra.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250130022913_AddDataMigration")]
-    partial class AddDataMigration
+    [Migration("20250130200656_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,14 +128,14 @@ namespace Emplyee.Infra.Migrations
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("RolesRoleId")
+                    b.Property<int>("EmployeeRolesRoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeId", "RolesRoleId");
+                    b.HasKey("EmployeeId", "EmployeeRolesRoleId");
 
-                    b.HasIndex("RolesRoleId");
+                    b.HasIndex("EmployeeRolesRoleId");
 
-                    b.ToTable("EmployeeRole");
+                    b.ToTable("EmployeeRole", (string)null);
                 });
 
             modelBuilder.Entity("Employee.Domain.Entities.Employee", b =>
@@ -201,7 +201,7 @@ namespace Emplyee.Infra.Migrations
 
                     b.HasOne("Employee.Domain.Entities.Role", null)
                         .WithMany()
-                        .HasForeignKey("RolesRoleId")
+                        .HasForeignKey("EmployeeRolesRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

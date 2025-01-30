@@ -15,7 +15,6 @@ namespace Emplyee.Infra.Mappings
     {
         public void Configure(EntityTypeBuilder<Employee.Domain.Entities.Employee> builder)
         {
-            builder.HasBaseType<Person>();
             builder.ToTable("Employee");
 
             builder.HasOne(x => x.Manager)
@@ -36,6 +35,12 @@ namespace Emplyee.Infra.Mappings
                 .WithOne()
                 .HasForeignKey("EmployeeId")
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x => x.EmployeeRoles)
+                .WithMany(x => x.Employee)
+                .UsingEntity(x => x.ToTable("EmployeeRole"));
+
+            //builder.Property(x => x.EmployeeRoles).HasField("_employeeRoles");
 
             builder.Metadata.FindNavigation("Addresses")?.SetPropertyAccessMode(PropertyAccessMode.Field);
             builder.Metadata.FindNavigation("Roles")?.SetPropertyAccessMode(PropertyAccessMode.Field);

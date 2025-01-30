@@ -29,6 +29,14 @@ namespace Employee.API.Controllers
         public async Task<Domain.Entities.Employee> GetById([FromRoute]Guid id,
             [FromServices] IEmployeeRepository repository) => (await repository.GetByIdAsync(id));
 
+        [HttpPut]
+        [Route("id")]
+        public async Task<GenericCommandResult> Update([FromRoute] Guid id, [FromBody]UpdateEmployeeCommand command,
+            [FromServices] EmployeeHandler handler)
+        {
+            return (GenericCommandResult)(await handler.Handle(command));
+        }
+
         [HttpDelete]
         [Route("{id:guid}")]
         public async Task<GenericCommandResult> DeleteById([FromRoute] Guid id,

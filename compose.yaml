@@ -2,6 +2,7 @@ services:
     api:
         build: 
             dockerfile: ./API/Employee.API/Dockerfile
+            no_cache: true
         container_name: api
         ports:
             - "8080:8080"

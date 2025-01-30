@@ -22,21 +22,24 @@ namespace Employee.Domain.Services
         {
             bool hasPermission = false;
             int i = 0;
-            while (creatorRoles.Count() > 0 && creatorRoles.Count() <= i && hasPermission == false)
+
+            
+            while (creatorRoles.Count() > 0 && i <= creatorRoles.Count() && hasPermission == false)
             {
 
-                foreach (var item in creatorRoles.ElementAt(i).RolePermission)
+                foreach (var rolePermission in creatorRoles.ElementAt(i).RolePermission)
                 {
-                    if (await this.CanCreateRoleAsync(item.Role, targetRole)){
+                    if (rolePermission.CanCreateRole != null && rolePermission.CanCreateRole.Equals(targetRole))
+                    {
                         hasPermission = true;
                         break;
                     }
                 }
-
                 i++;
             }
 
             return hasPermission;
+
         }
 
         public virtual async Task<bool> CanCreateRoleAsync(Role creatorRole, Role targetRole)

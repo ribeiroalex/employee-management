@@ -27,9 +27,5 @@ namespace Employee.Domain.Commands
 
         public string LastName { get; set; }
 
-
-        public List<string> Address { get; set; }
-
-        public List<string> Phone { get; set; }
     }
 }

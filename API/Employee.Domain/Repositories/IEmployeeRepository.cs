@@ -5,6 +5,7 @@ namespace Employee.Domain.Repositories
 {
     public interface IEmployeeRepository
     {
+        Task<bool> Add(Employee.Domain.Entities.Employee employee);
         public bool Update(Entities.Employee employee);
 
         public Task<Entities.Employee> GetByIdAsync(Guid id);

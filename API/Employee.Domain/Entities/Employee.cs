@@ -64,6 +64,6 @@ namespace Employee.Domain.Entities
 
         private List<Role> _employeeRoles = new List<Role>();
 
-        public IReadOnlyCollection<Role> Roles => _employeeRoles.AsReadOnly();
+        public IReadOnlyCollection<Role> EmployeeRoles => _employeeRoles.AsReadOnly();
     }
 }
