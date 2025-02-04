@@ -18,3 +18,13 @@ services:
           - MSSQL_SA_PASSWORD=admPass&123
         ports:
           - "1433:1433"
+    react-app:
+        build:
+            no_cache: true
+            context: ./UI/employee-management
+        ports:
+            - "3000:3000"
+        depends_on:
+            api:
+              condition: service_started
+      
