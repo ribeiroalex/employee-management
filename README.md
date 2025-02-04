@@ -1,11 +1,10 @@
-# employee-management
+# employee-management (API)
 
 there are two ways to run the application
 
 run "docker compose up" from a command line within the project root where the compose.yml file lives to get the project up and running.
 
 you can also run the application from Visual Studio using the docker-compose option.
-
 
 you can navigate the api documentation from localhost:8080/swagger
 
@@ -75,3 +74,13 @@ GET
 /v1/employees/{id}/phones/{id}
 ```
 
+# employee-management (UI)
+
+you can run the UI Application from localhost:3000
+
+The app should load the employee list as initial screen
+
+click the plus sign in top right to add new employee
+
+there are open activities to this UI  to get fully functional but code structure
+like components, services and context are there so code structe can be verified.
